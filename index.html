@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rules to Live By — Timeless Wisdom from Maimonides</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Hebrew:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; font-size: 20px; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            background-color: #FAF7F2;
+            color: #2C2418;
+            line-height: 1.75;
+            min-height: 100vh;
+        }
+
+        /* --- Header --- */
+        .hero {
+            text-align: center;
+            padding: 3.5rem 1.5rem 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #2C2418;
+            margin-bottom: 0.4rem;
+            line-height: 1.2;
+        }
+
+        .hero .subtitle {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.15rem;
+            font-weight: 400;
+            color: #7A6B52;
+            font-style: italic;
+            margin-bottom: 1.2rem;
+        }
+
+        .hero .intro {
+            font-size: 1rem;
+            color: #4A3F30;
+            max-width: 620px;
+            margin: 0 auto;
+        }
+
+        .divider {
+            width: 60px;
+            height: 3px;
+            background: #C9A84C;
+            margin: 2rem auto;
+            border: none;
+        }
+
+        .instruction {
+            text-align: center;
+            font-size: 0.95rem;
+            color: #7A6B52;
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
+
+        /* --- Tiles Grid --- */
+        .tiles {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .tile {
+            background: #FFFFFF;
+            border: 2px solid #E0D5C3;
+            border-radius: 12px;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            min-height: 130px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .tile:hover, .tile:focus {
+            border-color: #C9A84C;
+            box-shadow: 0 4px 16px rgba(201, 168, 76, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .tile.active {
+            border-color: #C9A84C;
+            background: #FDF8EE;
+            box-shadow: 0 4px 16px rgba(201, 168, 76, 0.25);
+        }
+
+        .tile-icon {
+            font-size: 2rem;
+            margin-bottom: 0.4rem;
+            line-height: 1;
+        }
+
+        .tile h2 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #2C2418;
+            line-height: 1.3;
+        }
+
+        .tile .tile-sub {
+            font-size: 0.7rem;
+            color: #7A6B52;
+            margin-top: 0.2rem;
+        }
+
+        /* Last tile centered */
+        .tiles .tile:last-child {
+            grid-column: 2;
+        }
+
+        /* --- Tip Card --- */
+        .tip-card-wrapper {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            overflow: hidden;
+        }
+
+        .tip-card {
+            background: #FFFFFF;
+            border: 2px solid #C9A84C;
+            border-radius: 12px;
+            padding: 2rem 2rem 1.5rem;
+            margin-top: 1.5rem;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.35s ease, transform 0.35s ease;
+            display: none;
+        }
+
+        .tip-card.visible {
+            display: block;
+        }
+
+        .tip-card.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .tip-card .category-label {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #C9A84C;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 0.8rem;
+        }
+
+        .tip-card .tip-english {
+            font-size: 1.15rem;
+            color: #2C2418;
+            line-height: 1.7;
+            margin-bottom: 1.3rem;
+        }
+
+        .tip-card .tip-hebrew {
+            font-family: 'Noto Serif Hebrew', serif;
+            font-size: 1.35rem;
+            font-weight: 400;
+            color: #3D3425;
+            direction: rtl;
+            text-align: right;
+            line-height: 1.9;
+            padding: 1rem 1.2rem;
+            background: rgba(201, 168, 76, 0.07);
+            border-right: 4px solid #C9A84C;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 0.8rem;
+        }
+
+        .tip-card .tip-source {
+            font-size: 0.8rem;
+            color: #7A6B52;
+            font-style: italic;
+            margin-bottom: 1.5rem;
+        }
+
+        .tip-card .tip-actions {
+            display: flex;
+            justify-content: center;
+            gap: 0.8rem;
+        }
+
+        .btn {
+            font-family: inherit;
+            font-size: 0.9rem;
+            padding: 0.6rem 1.6rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .btn-primary {
+            background: #C9A84C;
+            color: #FFFFFF;
+            font-weight: 600;
+        }
+
+        .btn-primary:hover, .btn-primary:focus {
+            background: #B8973E;
+            box-shadow: 0 2px 8px rgba(201, 168, 76, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #7A6B52;
+            border: 1.5px solid #E0D5C3;
+        }
+
+        .btn-secondary:hover, .btn-secondary:focus {
+            border-color: #C9A84C;
+            color: #C9A84C;
+        }
+
+        .tip-counter {
+            text-align: center;
+            font-size: 0.75rem;
+            color: #B0A48E;
+            margin-top: 0.8rem;
+        }
+
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            padding: 3rem 1.5rem 2.5rem;
+            margin-top: 3rem;
+            border-top: 1px solid #E0D5C3;
+        }
+
+        footer p {
+            font-size: 0.8rem;
+            color: #7A6B52;
+            font-style: italic;
+        }
+
+        footer .book-title {
+            font-family: 'Playfair Display', Georgia, serif;
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 600px) {
+            html { font-size: 18px; }
+            .hero h1 { font-size: 2.1rem; }
+            .hero { padding: 2.5rem 1.2rem 1.5rem; }
+            .tiles { grid-template-columns: repeat(2, 1fr); gap: 0.8rem; padding: 0 1rem; }
+            .tiles .tile:last-child { grid-column: 1 / -1; max-width: 50%; justify-self: center; }
+            .tile { min-height: 110px; padding: 1.2rem 0.8rem; }
+            .tip-card { padding: 1.5rem 1.2rem 1.2rem; }
+            .tip-card .tip-hebrew { font-size: 1.15rem; padding: 0.8rem 1rem; }
+            .tip-card-wrapper { padding: 0 1rem; }
+        }
+
+        @media (max-width: 380px) {
+            .tiles { grid-template-columns: 1fr; }
+            .tiles .tile:last-child { max-width: 100%; grid-column: auto; }
+        }
+
+        /* --- Print --- */
+        @media print {
+            body { background: white; font-size: 12pt; }
+            .hero h1 { font-size: 24pt; }
+            .tile { break-inside: avoid; }
+            .tip-card { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="hero">
+    <h1>Rules to Live By</h1>
+    <p class="subtitle">Timeless Wisdom from Maimonides for a Wonderful Life</p>
+    <p class="intro">
+        Moses ben Maimon — known as Maimonides or the Rambam — was a 12th-century rabbi, physician, and philosopher whose teachings on health, character, and purposeful living remain as relevant today as they were 800 years ago.
+    </p>
+</header>
+
+<hr class="divider">
+
+<p class="instruction">Tap a topic below to reveal a teaching</p>
+
+<div class="tiles" id="tiles">
+    <div class="tile" data-category="health" tabindex="0" role="button" aria-expanded="false">
+        <div class="tile-icon" aria-hidden="true">&#x2764;&#xFE0F;</div>
+        <h2>Health &amp;<br>Well-Being</h2>
+        <div class="tile-sub">Body &amp; Prevention</div>
+    </div>
+    <div class="tile" data-category="character" tabindex="0" role="button" aria-expanded="false">
+        <div class="tile-icon" aria-hidden="true">&#x2696;&#xFE0F;</div>
+        <h2>Character &amp;<br>Integrity</h2>
+        <div class="tile-sub">The Golden Mean</div>
+    </div>
+    <div class="tile" data-category="family" tabindex="0" role="button" aria-expanded="false">
+        <div class="tile-icon" aria-hidden="true">&#x1F3E0;</div>
+        <h2>Family &amp;<br>Home</h2>
+        <div class="tile-sub">Love &amp; Teaching</div>
+    </div>
+    <div class="tile" data-category="career" tabindex="0" role="button" aria-expanded="false">
+        <div class="tile-icon" aria-hidden="true">&#x1F331;</div>
+        <h2>Career &amp;<br>Livelihood</h2>
+        <div class="tile-sub">Work &amp; Purpose</div>
+    </div>
+    <div class="tile" data-category="spirituality" tabindex="0" role="button" aria-expanded="false">
+        <div class="tile-icon" aria-hidden="true">&#x2728;</div>
+        <h2>Spirituality &amp;<br>Faith</h2>
+        <div class="tile-sub">Awe &amp; Gratitude</div>
+    </div>
+    <div class="tile" data-category="community" tabindex="0" role="button" aria-expanded="false">
+        <div class="tile-icon" aria-hidden="true">&#x1F91D;</div>
+        <h2>Relationships &amp;<br>Community</h2>
+        <div class="tile-sub">Kindness &amp; Charity</div>
+    </div>
+    <div class="tile" data-category="wisdom" tabindex="0" role="button" aria-expanded="false">
+        <div class="tile-icon" aria-hidden="true">&#x1F4D6;</div>
+        <h2>Wisdom &amp;<br>Growth</h2>
+        <div class="tile-sub">Lifelong Learning</div>
+    </div>
+</div>
+
+<div class="tip-card-wrapper">
+    <div class="tip-card" id="tipCard">
+        <div class="category-label" id="tipCategory"></div>
+        <div class="tip-english" id="tipEnglish"></div>
+        <div class="tip-hebrew" id="tipHebrew" lang="he"></div>
+        <div class="tip-source" id="tipSource"></div>
+        <div class="tip-actions">
+            <button class="btn btn-primary" id="nextTipBtn">Another Tip</button>
+            <button class="btn btn-secondary" id="closeTipBtn">Close</button>
+        </div>
+        <div class="tip-counter" id="tipCounter"></div>
+    </div>
+</div>
+
+<footer>
+    <p>Inspired by <span class="book-title">Rules to Live By: Maimonides' Guide to a Wonderful Life</span> by Jeffrey Katz</p>
+</footer>
+
+<script>
+var tips = {
+    health: {
+        label: "Health & Well-Being",
+        items: [
+            {
+                english: "Eat only when you are truly hungry, and never fill your stomach completely — stop at three-quarters full. This single habit is the foundation of good health.",
+                hebrew: "לֹא יֹאכַל אָדָם עַד שֶׁתִּתְמַלֵּא כְּרֵסוֹ אֶלָּא יִפְחֹת כְּמוֹ רְבִיעַ מִשָּׂבְעָתוֹ",
+                source: "Mishneh Torah, Hilkhot De'ot 4:2"
+            },
+            {
+                english: "Keeping a healthy body is among the ways of serving God — for it is impossible to think clearly or know anything of the Creator when you are ill.",
+                hebrew: "הוֹאִיל וֶהֱיוֹת הַגּוּף בָּרִיא וְשָׁלֵם מִדַּרְכֵי הַשֵּׁם הוּא. שֶׁהֲרֵי אִי אֶפְשָׁר שֶׁיָּבִין אוֹ יֵדַע דָּבָר מִידִיעַת הַבּוֹרֵא וְהוּא חוֹלֶה",
+                source: "Mishneh Torah, Hilkhot De'ot 4:1"
+            },
+            {
+                english: "Sleep eight hours each night, ending before sunrise. Do not sleep on your face or on your back, but on your side — beginning on the left, then turning to the right.",
+                hebrew: "הַיּוֹם וְהַלַּיְלָה כ״ד שָׁעוֹת. דַּי לוֹ לָאָדָם לִישֹׁן שְׁלִישָׁן שֶׁהֵן שְׁמוֹנֶה שָׁעוֹת",
+                source: "Mishneh Torah, Hilkhot De'ot 4:4"
+            },
+            {
+                english: "Before each meal, exercise or engage in vigorous activity until the body warms. Then rest briefly, and only then sit down to eat.",
+                hebrew: "לְעוֹלָם יִתְעַמֵּל אָדָם וְיִגַּע עַד שֶׁיָּחֹם גּוּפוֹ וְיֵשֵׁב מְעַט עַד שֶׁתִּתְיַשֵּׁב נַפְשׁוֹ וְאַחַר כָּךְ יֹאכַל",
+                source: "Mishneh Torah, Hilkhot De'ot 4:2"
+            }
+        ]
+    },
+    character: {
+        label: "Character & Integrity",
+        items: [
+            {
+                english: "The straight path is the middle measure in every character trait — equally distant from both extremes. Be neither hot-tempered nor unfeeling, neither miserly nor wasteful.",
+                hebrew: "הַדֶּרֶךְ הַיְשָׁרָה הִיא מִדָּה בֵּינוֹנִית שֶׁבְּכָל דֵּעָה וְדֵעָה מִכָּל הַדֵּעוֹת שֶׁיֵּשׁ לוֹ לָאָדָם. וְהִיא הַדֵּעָה שֶׁהִיא רְחוֹקָה מִשְּׁתֵּי הַקְּצָווֹת רִחוּק שָׁוֶה",
+                source: "Mishneh Torah, Hilkhot De'ot 1:4"
+            },
+            {
+                english: "Emulate the qualities of God: just as He is called gracious, so should you be gracious. Just as He is called merciful, so should you be merciful. Just as He is called holy, so should you be holy.",
+                hebrew: "מַה הוּא נִקְרָא חַנּוּן אַף אַתָּה הֱיֵה חַנּוּן. מַה הוּא נִקְרָא רַחוּם אַף אַתָּה הֱיֵה רַחוּם. מַה הוּא נִקְרָא קָדוֹשׁ אַף אַתָּה הֱיֵה קָדוֹשׁ",
+                source: "Mishneh Torah, Hilkhot De'ot 1:6"
+            },
+            {
+                english: "Train yourself in good character by repeating virtuous actions again and again, until they become easy and natural — until they are a fixed part of who you are.",
+                hebrew: "וְיַחֲזֹר וְיַעֲשֶׂה אוֹתָם פְּעָמִים רַבּוֹת עַד שֶׁיִּהְיוּ נְקַלִּים בְּעֵינָיו וְלֹא יִהְיֶה בָּהֶם טֹרַח וְיִקָּבְעוּ הַדֵּעוֹת בְּנַפְשׁוֹ",
+                source: "Mishneh Torah, Hilkhot De'ot 1:7"
+            },
+            {
+                english: "Distance yourself completely from anger. It is an exceedingly bad trait, and a person should move to the opposite extreme to avoid it entirely.",
+                hebrew: "וְיֵשׁ דֵּעוֹת שֶׁאָסוּר לוֹ לָאָדָם לִנְהֹג בָּהֶן בְּבֵינוֹנִית אֶלָּא יִתְרַחֵק עַד הַקָּצֶה הָאַחֵר. וְהוּא גֹּבַהּ הַלֵּב",
+                source: "Mishneh Torah, Hilkhot De'ot 2:3"
+            }
+        ]
+    },
+    family: {
+        label: "Family & Home",
+        items: [
+            {
+                english: "A person should honor his wife more than he honors himself, and love her as he loves himself. Speak to her gently; be neither sad nor angry in her presence.",
+                hebrew: "יִהְיֶה אָדָם מְכַבֵּד אֶת אִשְׁתּוֹ יוֹתֵר מִגּוּפוֹ וְאוֹהֲבָהּ כְּגוּפוֹ",
+                source: "Mishneh Torah, Hilkhot Ishut 15:19"
+            },
+            {
+                english: "Just as a person is obligated to teach his son, so too is he obligated to teach his grandson. And not only his own family — every wise person must teach all who seek to learn, for students are also called children.",
+                hebrew: "כְּשֵׁם שֶׁחַיָּב אָדָם לְלַמֵּד אֶת בְּנוֹ כָּךְ הוּא חַיָּב לְלַמֵּד אֶת בֶּן בְּנוֹ",
+                source: "Mishneh Torah, Hilkhot Talmud Torah 1:2"
+            },
+            {
+                english: "Let your communication at home be gentle and peaceful. A household built on mutual respect and tender words will be pleasant and praiseworthy.",
+                hebrew: "וְיִהְיוּ דְּבָרָיו עִמָּהּ בְּנַחַת. וְלֹא יִהְיֶה עָצֵב וְלֹא רוֹגֵז",
+                source: "Mishneh Torah, Hilkhot Ishut 15:19"
+            }
+        ]
+    },
+    career: {
+        label: "Career & Livelihood",
+        items: [
+            {
+                english: "Direct your heart and all of your actions toward one goal: becoming aware of God. Let your work, your eating, and your rest all serve a higher purpose rather than mere accumulation.",
+                hebrew: "צָרִיךְ הָאָדָם שֶׁיְּכַוִּן לִבּוֹ וְכָל מַעֲשָׂיו כֻּלָּם לֵידַע אֶת הַשֵּׁם בָּרוּךְ הוּא בִּלְבַד",
+                source: "Mishneh Torah, Hilkhot De'ot 3:2"
+            },
+            {
+                english: "The highest level of charity — above which there is no higher — is to support a person before they fall into poverty: give them a gift or a loan, enter a partnership with them, or find them work, so they never need to depend on others.",
+                hebrew: "מַעֲלָה גְּדוֹלָה שֶׁאֵין לְמַעְלָה מִמֶּנָּה. זֶה הַמַּחֲזִיק בְּיַד יִשְׂרָאֵל שֶׁמָּךְ וְנוֹתֵן לוֹ מַתָּנָה אוֹ הַלְוָאָה אוֹ עוֹשֶׂה עִמּוֹ שֻׁתָּפוּת אוֹ מַמְצִיא לוֹ מְלָאכָה",
+                source: "Mishneh Torah, Hilkhot Matanot Aniyim 10:7"
+            },
+            {
+                english: "Do not renounce the pleasures of this world through asceticism. Enjoy food, rest, and comfort — but with the intention of keeping your body strong enough to serve a greater purpose.",
+                hebrew: "שֶׁמָּא יֹאמַר אָדָם הוֹאִיל וְהַקִּנְאָה וְהַתַּאֲוָה וְהַכָּבוֹד וְכַיּוֹצֵא בָּהֶם דֶּרֶךְ רָעָה הֵן... אֶפְרֹשׁ מֵהֶן בְּיוֹתֵר... גַּם זֶה דֶּרֶךְ רָעָה הִיא וְאָסוּר לֵילֵךְ בָּהּ",
+                source: "Mishneh Torah, Hilkhot De'ot 3:1"
+            }
+        ]
+    },
+    spirituality: {
+        label: "Spirituality & Faith",
+        items: [
+            {
+                english: "When a person contemplates God's wondrous and great creations and perceives from them His infinite wisdom — immediately he loves, praises, and glorifies, and is filled with a great desire to know the Almighty.",
+                hebrew: "בְּשָׁעָה שֶׁיִּתְבּוֹנֵן הָאָדָם בְּמַעֲשָׂיו וּבְרוּאָיו הַנִּפְלָאִים הַגְּדוֹלִים וְיִרְאֶה מֵהֶן חָכְמָתוֹ שֶׁאֵין לָהּ עֵרֶךְ וְלֹא קֵץ מִיָּד הוּא אוֹהֵב וּמְשַׁבֵּחַ וּמְפָאֵר",
+                source: "Mishneh Torah, Hilkhot Yesodei HaTorah 2:2"
+            },
+            {
+                english: "Care for your body so that your soul may be upright — strong enough and clear enough to know God. Health of body is a path to health of spirit.",
+                hebrew: "יָשִׂים עַל לִבּוֹ שֶׁיְּהֵא גּוּפוֹ שָׁלֵם וְחָזָק כְּדֵי שֶׁתִּהְיֶה נַפְשׁוֹ יְשָׁרָה לָדַעַת אֶת ה׳",
+                source: "Mishneh Torah, Hilkhot De'ot 3:3"
+            },
+            {
+                english: "It is a commandment to love and to stand in awe of this glorious and awesome God. How does one come to love Him? By contemplating His creation.",
+                hebrew: "הָאֵל הַנִּכְבָּד וְהַנּוֹרָא הַזֶּה מִצְוָה לְאָהֳבוֹ וּלְיִרְאָה אוֹתוֹ",
+                source: "Mishneh Torah, Hilkhot Yesodei HaTorah 2:1"
+            }
+        ]
+    },
+    community: {
+        label: "Relationships & Community",
+        items: [
+            {
+                english: "It is a commandment to love every person as you love yourself — to care for their possessions and their honor just as you care for your own.",
+                hebrew: "מִצְוָה עַל כָּל אָדָם לֶאֱהֹב אֶת כָּל אֶחָד וְאֶחָד מִיִּשְׂרָאֵל כְּגוּפוֹ. שֶׁנֶּאֱמַר וְאָהַבְתָּ לְרֵעֲךָ כָּמוֹךָ",
+                source: "Mishneh Torah, Hilkhot De'ot 6:3"
+            },
+            {
+                english: "It is human nature to be influenced by the character and behavior of your friends and neighbors. Therefore, surround yourself with the wise and the righteous, and distance yourself from the wicked.",
+                hebrew: "דֶּרֶךְ בְּרִיָּתוֹ שֶׁל אָדָם לִהְיוֹת נִמְשָׁךְ בְּדֵעוֹתָיו וּבְמַעֲשָׂיו אַחַר רֵעָיו וַחֲבֵרָיו וְנוֹהֵג כְּמִנְהַג אַנְשֵׁי מְדִינָתוֹ",
+                source: "Mishneh Torah, Hilkhot De'ot 6:1"
+            },
+            {
+                english: "Show great care for orphans and widows, for their spirits are very low and their hearts are broken — even if they are wealthy. Speak to them gently and treat them with honor.",
+                hebrew: "חַיָּב אָדָם לְהִזָּהֵר בִּיתוֹמִים וְאַלְמָנוֹת מִפְּנֵי שֶׁנַּפְשָׁן שְׁפָלָה לִמְאֹד וְרוּחָם נְמוּכָה",
+                source: "Mishneh Torah, Hilkhot De'ot 6:10"
+            },
+            {
+                english: "We must be more careful with the commandment of charity than with any other positive commandment, for charity is the mark of a righteous person.",
+                hebrew: "חַיָּבִין אָנוּ לְהִזָּהֵר בְּמִצְוַת צְדָקָה יוֹתֵר מִכָּל מִצְוֹת עֲשֵׂה",
+                source: "Mishneh Torah, Hilkhot Matanot Aniyim 10:1"
+            }
+        ]
+    },
+    wisdom: {
+        label: "Wisdom & Personal Growth",
+        items: [
+            {
+                english: "Until when is one obligated to study? Until the day of death. The greatest scholars of Israel continued to learn every single day of their lives.",
+                hebrew: "עַד אֵימָתַי חַיָּב לִלְמֹד תּוֹרָה. עַד יוֹם מוֹתוֹ. שֶׁנֶּאֱמַר וּפֶן יָסוּרוּ מִלְּבָבְךָ כֹּל יְמֵי חַיֶּיךָ",
+                source: "Mishneh Torah, Hilkhot Talmud Torah 1:10"
+            },
+            {
+                english: "It is a positive commandment to attach yourself to the wise and their students, in order to learn from their actions — how they eat, drink, conduct business, and live their daily lives.",
+                hebrew: "מִצְוַת עֲשֵׂה לְהִדָּבֵק בַּחֲכָמִים וְתַלְמִידֵיהֶם כְּדֵי לִלְמֹד מִמַּעֲשֵׂיהֶם",
+                source: "Mishneh Torah, Hilkhot De'ot 6:2"
+            },
+            {
+                english: "Every person — whether rich or poor, healthy or suffering, young or very old — must set aside fixed times each day and night for the study of wisdom.",
+                hebrew: "כָּל אִישׁ מִיִּשְׂרָאֵל חַיָּב בְּתַלְמוּד תּוֹרָה. בֵּין עָנִי בֵּין עָשִׁיר. בֵּין שָׁלֵם בְּגוּפוֹ בֵּין בַּעַל יִסּוּרִים. בֵּין בָּחוּר בֵּין שֶׁהָיָה זָקֵן גָּדוֹל",
+                source: "Mishneh Torah, Hilkhot Talmud Torah 1:8"
+            }
+        ]
+    }
+};
+
+(function() {
+    var currentCategory = null;
+    var currentIndex = 0;
+    var tipCard = document.getElementById('tipCard');
+    var tiles = document.querySelectorAll('.tile');
+
+    function showTip(category, index) {
+        var data = tips[category];
+        var tip = data.items[index];
+        document.getElementById('tipCategory').textContent = data.label;
+        document.getElementById('tipEnglish').textContent = tip.english;
+        document.getElementById('tipHebrew').textContent = tip.hebrew;
+        document.getElementById('tipSource').textContent = '— ' + tip.source;
+        document.getElementById('tipCounter').textContent = (index + 1) + ' of ' + data.items.length;
+
+        tipCard.classList.add('visible');
+        // Force reflow for animation
+        tipCard.offsetHeight;
+        tipCard.classList.add('show');
+
+        // Scroll card into view
+        setTimeout(function() {
+            tipCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 100);
+    }
+
+    function hideTip() {
+        tipCard.classList.remove('show');
+        setTimeout(function() {
+            tipCard.classList.remove('visible');
+        }, 350);
+        currentCategory = null;
+        tiles.forEach(function(t) {
+            t.classList.remove('active');
+            t.setAttribute('aria-expanded', 'false');
+        });
+    }
+
+    function handleTileClick(e) {
+        var tile = e.currentTarget;
+        var category = tile.getAttribute('data-category');
+
+        if (currentCategory === category) {
+            hideTip();
+            return;
+        }
+
+        tiles.forEach(function(t) {
+            t.classList.remove('active');
+            t.setAttribute('aria-expanded', 'false');
+        });
+        tile.classList.add('active');
+        tile.setAttribute('aria-expanded', 'true');
+
+        currentCategory = category;
+        currentIndex = 0;
+        showTip(category, currentIndex);
+    }
+
+    tiles.forEach(function(tile) {
+        tile.addEventListener('click', handleTileClick);
+        tile.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                handleTileClick(e);
+            }
+        });
+    });
+
+    document.getElementById('nextTipBtn').addEventListener('click', function() {
+        if (!currentCategory) return;
+        var items = tips[currentCategory].items;
+        currentIndex = (currentIndex + 1) % items.length;
+        // Quick fade out and in
+        tipCard.style.opacity = '0';
+        setTimeout(function() {
+            showTip(currentCategory, currentIndex);
+            tipCard.style.opacity = '';
+        }, 200);
+    });
+
+    document.getElementById('closeTipBtn').addEventListener('click', hideTip);
+})();
+</script>
+
+</body>
+</html>
