@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RamBam — Moses Maimonides (1138-1204)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Hebrew:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #FAF7F2;
+            color: #2C2418;
+            line-height: 1.75;
+            min-height: 100vh;
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            background: linear-gradient(135deg, #2C2418 0%, #4A3F30 100%);
+            color: #FAF7F2;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .hero .hebrew-name {
+            font-family: 'Noto Serif Hebrew', serif;
+            font-size: 2rem;
+            color: #C9A84C;
+            margin-bottom: 1rem;
+            direction: rtl;
+        }
+
+        .hero .subtitle {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.3rem;
+            font-style: italic;
+            color: #D4C5A9;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero .dates {
+            font-size: 1.1rem;
+            color: #B0A48E;
+            font-weight: 300;
+        }
+
+        /* --- Navigation --- */
+        .nav {
+            background: #FFFFFF;
+            border-bottom: 1px solid #E0D5C3;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: #7A6B52;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .nav a:hover {
+            color: #C9A84C;
+        }
+
+        /* --- Sections --- */
+        section {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        section h2 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 2rem;
+            font-weight: 600;
+            color: #2C2418;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.75rem;
+        }
+
+        section h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: #C9A84C;
+        }
+
+        section p {
+            font-size: 1.1rem;
+            color: #4A3F30;
+            margin-bottom: 1.25rem;
+        }
+
+        .divider {
+            border: none;
+            height: 1px;
+            background: #E0D5C3;
+            margin: 0;
+        }
+
+        /* --- Biography Section --- */
+        #biography {
+            background: #FFFFFF;
+        }
+
+        .bio-highlight {
+            background: rgba(201, 168, 76, 0.08);
+            border-left: 4px solid #C9A84C;
+            padding: 1.25rem 1.5rem;
+            margin: 1.5rem 0;
+            font-style: italic;
+            color: #3D3425;
+        }
+
+        /* --- Works Section --- */
+        .works-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .work-card {
+            background: #FFFFFF;
+            border: 2px solid #E0D5C3;
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.25s ease;
+        }
+
+        .work-card:hover {
+            border-color: #C9A84C;
+            box-shadow: 0 4px 20px rgba(201, 168, 76, 0.15);
+        }
+
+        .work-card h3 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.25rem;
+            color: #2C2418;
+            margin-bottom: 0.5rem;
+        }
+
+        .work-card .hebrew-title {
+            font-family: 'Noto Serif Hebrew', serif;
+            color: #C9A84C;
+            font-size: 1rem;
+            direction: rtl;
+            text-align: right;
+            margin-bottom: 0.75rem;
+        }
+
+        .work-card p {
+            font-size: 0.95rem;
+            color: #7A6B52;
+            margin-bottom: 0;
+        }
+
+        /* --- Philosophy Section --- */
+        #philosophy {
+            background: #FFFFFF;
+        }
+
+        .principles-list {
+            list-style: none;
+            margin-top: 1.5rem;
+        }
+
+        .principles-list li {
+            padding: 1rem 0;
+            border-bottom: 1px solid #E0D5C3;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .principles-list li:last-child {
+            border-bottom: none;
+        }
+
+        .principle-number {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #C9A84C;
+            min-width: 40px;
+        }
+
+        .principle-text {
+            font-size: 1rem;
+            color: #4A3F30;
+        }
+
+        /* --- Legacy Section --- */
+        .quote-block {
+            background: linear-gradient(135deg, #2C2418 0%, #4A3F30 100%);
+            color: #FAF7F2;
+            padding: 2.5rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .quote-block blockquote {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.4rem;
+            font-style: italic;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .quote-block cite {
+            font-size: 0.95rem;
+            color: #C9A84C;
+        }
+
+        /* --- Timeline --- */
+        .timeline {
+            margin-top: 2rem;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .timeline-year {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-weight: 700;
+            color: #C9A84C;
+            min-width: 80px;
+            font-size: 1.1rem;
+        }
+
+        .timeline-event {
+            font-size: 1rem;
+            color: #4A3F30;
+            padding-left: 1rem;
+            border-left: 2px solid #E0D5C3;
+        }
+
+        /* --- Footer --- */
+        footer {
+            background: #2C2418;
+            color: #B0A48E;
+            text-align: center;
+            padding: 2.5rem 2rem;
+        }
+
+        footer p {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        footer .epitaph {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-style: italic;
+            color: #C9A84C;
+            font-size: 1rem;
+            margin-top: 1rem;
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 2.5rem; }
+            .hero .hebrew-name { font-size: 1.5rem; }
+            .hero { padding: 3rem 1.5rem; }
+            section { padding: 2.5rem 1.5rem; }
+            section h2 { font-size: 1.6rem; }
+            .nav ul { gap: 1rem; }
+            .nav a { font-size: 0.85rem; }
+            .timeline-item { flex-direction: column; gap: 0.5rem; }
+            .timeline-year { min-width: auto; }
+            .timeline-event { border-left: none; padding-left: 0; border-top: 2px solid #E0D5C3; padding-top: 0.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="hero">
+    <div class="hero-content">
+        <h1>RamBam</h1>
+        <div class="hebrew-name">רבי משה בן מימון</div>
+        <p class="subtitle">Rabbi, Philosopher, Physician</p>
+        <p class="dates">Cordoba 1138 — Cairo 1204</p>
+    </div>
+</header>
+
+<nav class="nav">
+    <ul>
+        <li><a href="#biography">Biography</a></li>
+        <li><a href="#works">Major Works</a></li>
+        <li><a href="#philosophy">Philosophy</a></li>
+        <li><a href="#legacy">Legacy</a></li>
+        <li><a href="#timeline">Timeline</a></li>
+    </ul>
+</nav>
+
+<section id="biography">
+    <h2>Biography</h2>
+    <p>Moses ben Maimon, known as Maimonides or by the Hebrew acronym <strong>RamBam</strong> (Rabbi Moshe ben Maimon), stands as one of the most influential Jewish scholars in history. Born in Cordoba, Spain during the golden age of Jewish culture in the Iberian Peninsula, he would become a towering figure in Jewish law, philosophy, and medicine.</p>
+
+    <div class="bio-highlight">
+        "From Moses to Moses, there arose none like Moses" — a traditional saying expressing the unparalleled impact of Maimonides on Jewish thought.
+    </div>
+
+    <p>When the Almohad dynasty conquered Cordoba in 1148, the family was forced to flee, beginning years of wandering through Spain, Morocco, and eventually settling in Fostat (old Cairo), Egypt. There, Maimonides served as the personal physician to the Sultan Saladin's vizier and became the leader of the Egyptian Jewish community.</p>
+
+    <p>Despite his demanding medical practice — he famously described his exhausting daily schedule in letters — Maimonides produced an extraordinary body of work that synthesized Jewish law, Aristotelian philosophy, and medical knowledge into comprehensive systems that remain studied today.</p>
+</section>
+
+<hr class="divider">
+
+<section id="works">
+    <h2>Major Works</h2>
+    <p>Maimonides' literary output was remarkable in both scope and influence. His works continue to shape Jewish law, philosophy, and religious thought.</p>
+
+    <div class="works-grid">
+        <div class="work-card">
+            <h3>Mishneh Torah</h3>
+            <div class="hebrew-title">משנה תורה</div>
+            <p>A comprehensive codification of all Jewish law, organized into 14 books covering every aspect of halacha. It remains a foundational text for Jewish legal study.</p>
+        </div>
+
+        <div class="work-card">
+            <h3>Guide for the Perplexed</h3>
+            <div class="hebrew-title">מורה נבוכים</div>
+            <p>A philosophical masterwork reconciling Aristotelian philosophy with Jewish theology, addressing fundamental questions of divine attributes, prophecy, and providence.</p>
+        </div>
+
+        <div class="work-card">
+            <h3>Commentary on the Mishnah</h3>
+            <div class="hebrew-title">פירוש המשניות</div>
+            <p>A comprehensive commentary written in Arabic, including the famous introduction to Tractate Avot (Shemoneh Perakim) on ethics and the soul.</p>
+        </div>
+
+        <div class="work-card">
+            <h3>Medical Treatises</h3>
+            <div class="hebrew-title">ספרי רפואה</div>
+            <p>Ten medical works including treatises on asthma, hemorrhoids, poisons, and a regimen of health, reflecting his expertise as a court physician.</p>
+        </div>
+    </div>
+</section>
+
+<hr class="divider">
+
+<section id="philosophy">
+    <h2>Philosophy</h2>
+    <p>Maimonides sought to harmonize faith and reason, demonstrating that Jewish tradition and philosophical inquiry could coexist. His approach emphasized rational understanding of religious concepts while maintaining deep commitment to halacha.</p>
+
+    <ul class="principles-list">
+        <li>
+            <span class="principle-number">1</span>
+            <span class="principle-text"><strong>Negative Theology:</strong> We can only describe God by what He is not, since human language cannot capture the infinite divine essence.</span>
+        </li>
+        <li>
+            <span class="principle-number">2</span>
+            <span class="principle-text"><strong>The Golden Mean:</strong> Ethical living requires finding the balanced middle path between extremes in all character traits.</span>
+        </li>
+        <li>
+            <span class="principle-number">3</span>
+            <span class="principle-text"><strong>Intellectual Love of God:</strong> True worship comes through understanding God's works and contemplating His wisdom in creation.</span>
+        </li>
+        <li>
+            <span class="principle-number">4</span>
+            <span class="principle-text"><strong>Purposeful Living:</strong> All human actions, including eating and sleeping, should ultimately serve the pursuit of wisdom and closeness to God.</span>
+        </li>
+        <li>
+            <span class="principle-number">5</span>
+            <span class="principle-text"><strong>Thirteen Principles:</strong> His formulation of core Jewish beliefs became the most widely known summary of Jewish faith.</span>
+        </li>
+    </ul>
+</section>
+
+<hr class="divider">
+
+<section id="legacy">
+    <h2>Legacy</h2>
+
+    <div class="quote-block">
+        <blockquote>"Give a man a fish and you feed him for a day; teach a man to fish and you feed him for a lifetime."</blockquote>
+        <cite>— Often attributed to Maimonides, reflecting his philosophy on charity</cite>
+    </div>
+
+    <p>Maimonides' influence extends far beyond the Jewish world. His philosophical works influenced medieval Christian thinkers including Thomas Aquinas, and his medical writings were studied in European universities for centuries.</p>
+
+    <p>Within Judaism, his legal code transformed the study of halacha, while his philosophical approach opened new pathways for understanding ancient texts. Today, his teachings on ethics, health, and purposeful living resonate with people of all backgrounds seeking wisdom for daily life.</p>
+
+    <p>He was buried in Tiberias, Israel, where his tomb remains a site of pilgrimage. His legacy lives on in the countless students, scholars, and seekers who continue to study his works.</p>
+</section>
+
+<hr class="divider">
+
+<section id="timeline">
+    <h2>Timeline</h2>
+
+    <div class="timeline">
+        <div class="timeline-item">
+            <span class="timeline-year">1138</span>
+            <span class="timeline-event">Born in Cordoba, Spain, on the eve of Passover</span>
+        </div>
+        <div class="timeline-item">
+            <span class="timeline-year">1148</span>
+            <span class="timeline-event">Almohad conquest forces family to flee Cordoba</span>
+        </div>
+        <div class="timeline-item">
+            <span class="timeline-year">1165</span>
+            <span class="timeline-event">Family settles in Fostat (old Cairo), Egypt</span>
+        </div>
+        <div class="timeline-item">
+            <span class="timeline-year">1168</span>
+            <span class="timeline-event">Completes Commentary on the Mishnah</span>
+        </div>
+        <div class="timeline-item">
+            <span class="timeline-year">1177</span>
+            <span class="timeline-event">Appointed head of the Egyptian Jewish community</span>
+        </div>
+        <div class="timeline-item">
+            <span class="timeline-year">1180</span>
+            <span class="timeline-event">Completes the Mishneh Torah</span>
+        </div>
+        <div class="timeline-item">
+            <span class="timeline-year">1190</span>
+            <span class="timeline-event">Completes the Guide for the Perplexed</span>
+        </div>
+        <div class="timeline-item">
+            <span class="timeline-year">1204</span>
+            <span class="timeline-event">Dies in Fostat; later buried in Tiberias</span>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>Learn more about Maimonides' wisdom for daily life</p>
+    <p><a href="index.html" style="color: #C9A84C;">Explore "Rules to Live By"</a></p>
+    <p class="epitaph">"From Moses to Moses, there arose none like Moses"</p>
+</footer>
+
+</body>
+</html>
