@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RamBam — Rabbi Moshe ben Maimon (Maimonides)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Hebrew:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; font-size: 18px; }
+
+        body {
+            font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            background-color: #FAF7F2;
+            color: #2C2418;
+            line-height: 1.75;
+            min-height: 100vh;
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            background: linear-gradient(135deg, #1a365d 0%, #2c5282 50%, #1a365d 100%);
+            color: #FFFFFF;
+            text-align: center;
+            padding: 5rem 1.5rem 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23C9A84C' fill-opacity='0.08'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero .hebrew-name {
+            font-family: 'Noto Serif Hebrew', serif;
+            font-size: 2.2rem;
+            font-weight: 400;
+            color: #C9A84C;
+            margin-bottom: 0.5rem;
+            direction: rtl;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 3.2rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+            line-height: 1.2;
+        }
+
+        .hero .years {
+            font-size: 1.3rem;
+            color: #E2E8F0;
+            margin-bottom: 1rem;
+            font-weight: 400;
+        }
+
+        .hero .tagline {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.4rem;
+            font-style: italic;
+            color: #C9A84C;
+            letter-spacing: 0.05em;
+        }
+
+        /* --- Navigation --- */
+        .nav {
+            background: #FFFFFF;
+            border-bottom: 2px solid #E0D5C3;
+            padding: 1rem 1.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: #4A3F30;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+            padding: 0.3rem 0;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav a:hover {
+            color: #C9A84C;
+            border-bottom-color: #C9A84C;
+        }
+
+        /* --- Section Styles --- */
+        .section {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 4rem 1.5rem;
+        }
+
+        .section-alt {
+            background: #FFFFFF;
+        }
+
+        .section h2 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1a365d;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .section h2::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: #C9A84C;
+            margin: 0.8rem auto 0;
+        }
+
+        /* --- Biography --- */
+        .biography p {
+            font-size: 1.1rem;
+            line-height: 1.9;
+            color: #3D3425;
+            max-width: 750px;
+            margin: 0 auto 1.5rem;
+            text-align: justify;
+        }
+
+        .biography p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* --- Works Grid --- */
+        .works-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .work-card {
+            background: #FAF7F2;
+            border: 2px solid #E0D5C3;
+            border-radius: 12px;
+            padding: 2rem 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .work-card:hover {
+            border-color: #C9A84C;
+            box-shadow: 0 6px 20px rgba(201, 168, 76, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .work-card h3 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1a365d;
+            margin-bottom: 0.3rem;
+        }
+
+        .work-card .hebrew-title {
+            font-family: 'Noto Serif Hebrew', serif;
+            font-size: 1.1rem;
+            color: #C9A84C;
+            direction: rtl;
+            margin-bottom: 0.8rem;
+        }
+
+        .work-card p {
+            color: #4A3F30;
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        /* --- 13 Principles --- */
+        .principles-section {
+            background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%);
+            color: #FFFFFF;
+            padding: 4rem 1.5rem;
+        }
+
+        .principles-section h2 {
+            color: #FFFFFF;
+        }
+
+        .principles-section h2::after {
+            background: #C9A84C;
+        }
+
+        .principles-intro {
+            text-align: center;
+            font-size: 1.1rem;
+            color: #E2E8F0;
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+            font-style: italic;
+        }
+
+        .principles-list {
+            list-style: none;
+            max-width: 800px;
+            margin: 0 auto;
+            display: grid;
+            gap: 1rem;
+        }
+
+        .principle-item {
+            background: rgba(255,255,255,0.08);
+            border-left: 4px solid #C9A84C;
+            padding: 1.2rem 1.5rem;
+            border-radius: 0 8px 8px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            transition: background 0.2s;
+        }
+
+        .principle-item:hover {
+            background: rgba(255,255,255,0.12);
+        }
+
+        .principle-number {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #C9A84C;
+            min-width: 2rem;
+        }
+
+        .principle-text {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #F7FAFC;
+        }
+
+        /* --- Legacy --- */
+        .legacy-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .legacy-item {
+            text-align: center;
+            padding: 1.5rem;
+        }
+
+        .legacy-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .legacy-item h3 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1a365d;
+            margin-bottom: 0.8rem;
+        }
+
+        .legacy-item p {
+            color: #4A3F30;
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        /* --- Footer --- */
+        footer {
+            background: #1a365d;
+            color: #FFFFFF;
+            text-align: center;
+            padding: 4rem 1.5rem 3rem;
+        }
+
+        .footer-quote {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.5rem;
+            font-style: italic;
+            color: #C9A84C;
+            max-width: 600px;
+            margin: 0 auto 1rem;
+            line-height: 1.6;
+        }
+
+        .footer-attribution {
+            font-size: 0.95rem;
+            color: #A0AEC0;
+            margin-bottom: 2rem;
+        }
+
+        .footer-link {
+            display: inline-block;
+            color: #C9A84C;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.8rem 2rem;
+            border: 2px solid #C9A84C;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .footer-link:hover {
+            background: #C9A84C;
+            color: #1a365d;
+        }
+
+        .footer-copyright {
+            margin-top: 2.5rem;
+            font-size: 0.85rem;
+            color: #718096;
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 768px) {
+            html { font-size: 16px; }
+
+            .hero { padding: 3.5rem 1.2rem 3rem; }
+            .hero h1 { font-size: 2.4rem; }
+            .hero .hebrew-name { font-size: 1.8rem; }
+            .hero .tagline { font-size: 1.2rem; }
+
+            .nav ul { gap: 1rem; }
+            .nav a { font-size: 0.85rem; }
+
+            .section { padding: 3rem 1.2rem; }
+            .section h2 { font-size: 1.7rem; }
+
+            .principle-item { padding: 1rem 1.2rem; }
+            .principle-number { font-size: 1.3rem; }
+
+            .footer-quote { font-size: 1.3rem; }
+        }
+
+        @media (max-width: 480px) {
+            .nav ul {
+                gap: 0.6rem 1rem;
+                justify-content: center;
+            }
+
+            .works-grid { grid-template-columns: 1fr; }
+
+            .legacy-content { grid-template-columns: 1fr; }
+        }
+
+        /* --- Print --- */
+        @media print {
+            body { background: white; }
+            .nav { display: none; }
+            .hero { background: #1a365d; print-color-adjust: exact; }
+            .principles-section { background: #1a365d; print-color-adjust: exact; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Hero Section -->
+<header class="hero">
+    <div class="hero-content">
+        <p class="hebrew-name">רבי משה בן מימון</p>
+        <h1>Rabbi Moshe ben Maimon</h1>
+        <p class="years">1138 – 1204</p>
+        <p class="tagline">Philosopher, Rabbi, Physician</p>
+    </div>
+</header>
+
+<!-- Navigation -->
+<nav class="nav">
+    <ul>
+        <li><a href="#biography">Biography</a></li>
+        <li><a href="#works">Major Works</a></li>
+        <li><a href="#principles">13 Principles</a></li>
+        <li><a href="#legacy">Legacy</a></li>
+    </ul>
+</nav>
+
+<!-- Biography Section -->
+<section id="biography" class="section biography">
+    <h2>Biography</h2>
+    <p>
+        Rabbi Moshe ben Maimon, known to the world as Maimonides or by the Hebrew acronym RamBam, was born in 1138 in Córdoba, Spain, during the golden age of Jewish culture in the Iberian Peninsula. His father, Rabbi Maimon, was a distinguished judge and scholar who instilled in the young Moses a deep love of learning and devotion to Jewish law.
+    </p>
+    <p>
+        When Maimonides was thirteen, the Almohad conquest of Córdoba forced his family to flee. For nearly a decade, they wandered through Spain and eventually settled in Fez, Morocco, where Maimonides continued his intensive studies in Torah, philosophy, and medicine. In 1165, the family moved to the Land of Israel before finally settling in Fustat (Old Cairo), Egypt.
+    </p>
+    <p>
+        In Egypt, Maimonides became the leader of the Jewish community and rose to prominence as a physician, eventually becoming the personal doctor to the Sultan Saladin and his royal court. Despite his demanding medical practice, which occupied much of his day, he devoted his nights to writing and to answering legal queries from Jewish communities across the world. He passed away in 1204 and was buried in Tiberias, where his tomb remains a site of pilgrimage to this day.
+    </p>
+</section>
+
+<!-- Major Works Section -->
+<section id="works" class="section section-alt">
+    <h2>Major Works</h2>
+    <div class="works-grid">
+        <div class="work-card">
+            <h3>Mishneh Torah</h3>
+            <p class="hebrew-title">משנה תורה</p>
+            <p>
+                A comprehensive codification of all Jewish law, organized into fourteen books. This monumental work systematically presents the entire scope of halakha (Jewish religious law), making it accessible to scholars and laypeople alike. It remains one of the most influential works in Jewish legal literature.
+            </p>
+        </div>
+        <div class="work-card">
+            <h3>Guide for the Perplexed</h3>
+            <p class="hebrew-title">מורה נבוכים</p>
+            <p>
+                Maimonides' philosophical masterpiece, written in Judeo-Arabic for intellectuals struggling to reconcile religious faith with Aristotelian philosophy. The work addresses profound questions about God's nature, prophecy, divine providence, and the reasons behind the commandments.
+            </p>
+        </div>
+        <div class="work-card">
+            <h3>Commentary on the Mishnah</h3>
+            <p class="hebrew-title">פירוש המשנה</p>
+            <p>
+                Written over ten years, this Arabic commentary explains the Mishnah's legal and ethical teachings. Its introduction includes the famous formulation of the Thirteen Principles of Faith, which became a cornerstone of Jewish belief and is recited in many communities to this day.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- 13 Principles Section -->
+<section id="principles" class="principles-section">
+    <h2>The Thirteen Principles of Faith</h2>
+    <p class="principles-intro">
+        Maimonides formulated these fundamental beliefs as the essential tenets of Judaism, expressing the core theological concepts that define Jewish faith.
+    </p>
+    <ol class="principles-list">
+        <li class="principle-item">
+            <span class="principle-number">1</span>
+            <span class="principle-text"><strong>Existence of God:</strong> God exists and is the cause of all existence. All beings depend on Him, but He depends on nothing.</span>
+        </li>
+        <li class="principle-item">
+            <span class="principle-number">2</span>
+            <span class="principle-text"><strong>Unity of God:</strong> God is absolutely one. His unity is unlike any other unity that exists. He is not divisible or composite in any way.</span>
+        </li>
+        <li class="principle-item">
+            <span class="principle-number">3</span>
+            <span class="principle-text"><strong>Incorporeality of God:</strong> God has no body and no physical form. Any biblical descriptions of God in physical terms are metaphorical.</span>
+        </li>
+        <li class="principle-item">
+            <span class="principle-number">4</span>
+            <span class="principle-text"><strong>Eternity of God:</strong> God is eternal, the first and the last. He existed before all things and will exist forever.</span>
+        </li>
+        <li class="principle-item">
+            <span class="principle-number">5</span>
+            <span class="principle-text"><strong>Worship of God Alone:</strong> It is proper to worship God alone and no other being. No intermediaries should be called upon.</span>
+        </li>
+        <li class="principle-item">
+            <span class="principle-number">6</span>
+            <span class="principle-text"><strong>Prophecy:</strong> God communicates with humanity through prophets, chosen individuals of great wisdom and moral perfection.</span>
+        </li>
+        <li class="principle-item">
+            <span class="principle-number">7</span>
+            <span class="principle-text"><strong>Supremacy of Moses:</strong> The prophecy of Moses was unique and superior to all other prophets, before and after him.</span>
+        </li>
+        <li class="principle-item">
+            <span class="principle-number">8</span>
+            <span class="principle-text"><strong>Divine Origin of Torah:</strong> The entire Torah was given by God to Moses. It is divine in origin, both the Written and Oral Torah.</span>
+        </li>
+        <li class="principle-item">
+            <span class="principle-number">9</span>
+            <span class="principle-text"><strong>Immutability of Torah:</strong> The Torah will never be changed or replaced. No other law will ever come from God.</span>
+        </li>
+        <li class="principle-item">
+            <span class="principle-number">10</span>
+            <span class="principle-text"><strong>Divine Omniscience:</strong> God knows all the deeds and thoughts of human beings. Nothing is hidden from His knowledge.</span>
+        </li>
+        <li class="principle-item">
+            <span class="principle-number">11</span>
+            <span class="principle-text"><strong>Reward and Punishment:</strong> God rewards those who keep His commandments and punishes those who transgress them.</span>
+        </li>
+        <li class="principle-item">
+            <span class="principle-number">12</span>
+            <span class="principle-text"><strong>Coming of the Messiah:</strong> The Messiah will come, and though he may tarry, we must await his coming every day.</span>
+        </li>
+        <li class="principle-item">
+            <span class="principle-number">13</span>
+            <span class="principle-text"><strong>Resurrection of the Dead:</strong> The dead will be brought back to life when God wills it.</span>
+        </li>
+    </ol>
+</section>
+
+<!-- Legacy Section -->
+<section id="legacy" class="section">
+    <h2>Enduring Legacy</h2>
+    <div class="legacy-content">
+        <div class="legacy-item">
+            <div class="legacy-icon">&#x2696;&#xFE0F;</div>
+            <h3>Jewish Law</h3>
+            <p>
+                The Mishneh Torah revolutionized the study of halakha, organizing centuries of legal discussion into a clear, systematic code. It remains a primary reference for Jewish law and continues to shape rabbinic decisions worldwide.
+            </p>
+        </div>
+        <div class="legacy-item">
+            <div class="legacy-icon">&#x1F4DA;</div>
+            <h3>Philosophy</h3>
+            <p>
+                Maimonides bridged the gap between faith and reason, influencing not only Jewish thought but also Christian and Islamic philosophy. Thinkers like Thomas Aquinas and Leibniz drew upon his ideas.
+            </p>
+        </div>
+        <div class="legacy-item">
+            <div class="legacy-icon">&#x2695;&#xFE0F;</div>
+            <h3>Medicine</h3>
+            <p>
+                His medical writings, emphasizing preventive care and holistic health, were studied for centuries. His approach to medicine as both art and science anticipated modern medical ethics.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <blockquote class="footer-quote">
+        "Teach thy tongue to say 'I do not know,' and thou shalt progress."
+    </blockquote>
+    <p class="footer-attribution">— Maimonides</p>
+    <a href="index.html" class="footer-link">Explore His Teachings</a>
+    <p class="footer-copyright">
+        From Moses to Moses, there arose none like Moses.
+    </p>
+</footer>
+
+</body>
+</html>
