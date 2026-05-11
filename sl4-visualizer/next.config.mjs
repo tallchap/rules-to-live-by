@@ -1,6 +1,6 @@
 const repo = "rules-to-live-by";
 const isProd = process.env.NODE_ENV === "production";
-const basePath = isProd ? `/${repo}` : "";
+const basePath = isProd ? `/${repo}/visualizer` : "";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
