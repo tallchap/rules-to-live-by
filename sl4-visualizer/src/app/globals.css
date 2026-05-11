@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body {
+  background: #0a0a0a;
+  color: #e6e6ea;
+  height: 100%;
+}
+
+body {
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #2a2a30; border-radius: 6px; }
+::-webkit-scrollbar-thumb:hover { background: #3a3a44; }
+
+.quote {
+  color: #6b7280;
+  border-left: 2px solid #2a2a30;
+  padding-left: 0.75rem;
+  margin: 0.25rem 0;
+  white-space: pre-wrap;
+}
+
+mark {
+  background: rgba(167, 139, 250, 0.35);
+  color: inherit;
+  padding: 0 1px;
+  border-radius: 2px;
+}
+
+.flash {
+  animation: flash 1.4s ease-out 1;
+}
+@keyframes flash {
+  0% { box-shadow: 0 0 0 2px rgba(167, 139, 250, 0.0); background: rgba(167, 139, 250, 0.10); }
+  20% { box-shadow: 0 0 0 2px rgba(167, 139, 250, 0.55); background: rgba(167, 139, 250, 0.18); }
+  100% { box-shadow: 0 0 0 2px rgba(167, 139, 250, 0.0); background: transparent; }
+}
