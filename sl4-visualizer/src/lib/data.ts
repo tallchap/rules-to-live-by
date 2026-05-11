@@ -15,11 +15,13 @@ export interface DataBundle {
 
 let cached: Promise<DataBundle> | null = null;
 
+const BASE = process.env.NEXT_PUBLIC_BASE_PATH || "";
+
 async function loadOnce(): Promise<DataBundle> {
   const [m, t, s] = await Promise.all([
-    fetch("/messages.json").then((r) => r.json() as Promise<Message[]>),
-    fetch("/threads.json").then((r) => r.json() as Promise<Thread[]>),
-    fetch("/stats.json").then((r) => r.json() as Promise<Stats>),
+    fetch(`${BASE}/messages.json`).then((r) => r.json() as Promise<Message[]>),
+    fetch(`${BASE}/threads.json`).then((r) => r.json() as Promise<Thread[]>),
+    fetch(`${BASE}/stats.json`).then((r) => r.json() as Promise<Stats>),
   ]);
   const byId = new Map<string, Message>();
   for (const msg of m) byId.set(msg.id, msg);
