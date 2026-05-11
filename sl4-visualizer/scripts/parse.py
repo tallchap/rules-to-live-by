@@ -65,26 +65,27 @@ def extract_body(text: str) -> str:
     if a == -1 or b == -1:
         return ""
     raw = text[a + len(BODY_START):b]
-    # Decode quoted-reply `<em> &gt; ...</em>` blocks by stripping em tags
-    # but keep the `&gt;` markers (will become `>` after entity decode).
-    # Replace <br> with newline.
-    raw = re.sub(r'<\s*br\s*/?>', '\n', raw, flags=re.IGNORECASE)
-    raw = re.sub(r'</\s*p\s*>', '\n\n', raw, flags=re.IGNORECASE)
+    # In Hypermail, a real line break in the email is a <br>; the literal
+    # newlines in the HTML source file are just formatting. Flatten the source
+    # newlines to spaces FIRST so we don't double up every line.
+    raw = raw.replace('\r', ' ').replace('\n', ' ')
+    # <br> -> single newline; <p>/</p> and other block tags -> paragraph break.
+    raw = re.sub(r'<\s*br\s*/?\s*>', '\n', raw, flags=re.IGNORECASE)
+    raw = re.sub(r'</?\s*p(\s[^>]*)?>', '\n\n', raw, flags=re.IGNORECASE)
+    raw = re.sub(r'</?\s*(div|pre|blockquote|li|ul|ol)(\s[^>]*)?>', '\n', raw, flags=re.IGNORECASE)
+    # Strip any remaining tags (em, a, strong, ...). Quoted-reply lines were
+    # wrapped in <em> with a leading "&gt;" which becomes "> " after unescape.
     raw = TAG_RE.sub('', raw)
     raw = html.unescape(raw)
-    # Normalize whitespace: collapse runs of spaces/tabs but preserve newlines
-    lines = []
-    for line in raw.splitlines():
-        line = WS_RE.sub(' ', line).rstrip()
-        # Hypermail wraps quoted lines like " > text" - normalize leading space before >
-        lines.append(line)
-    # collapse 3+ blank lines into 2
+    # Trim each line and collapse internal runs of whitespace.
+    lines = [WS_RE.sub(' ', ln).strip() for ln in raw.split('\n')]
+    # Collapse any run of blank lines down to a single blank line.
     cleaned = []
     blank = 0
     for ln in lines:
-        if not ln.strip():
+        if not ln:
             blank += 1
-            if blank <= 2:
+            if blank == 1:
                 cleaned.append("")
         else:
             blank = 0
