@@ -12,6 +12,24 @@ interface Block {
   text: string;
 }
 
+function normalize(body: string): string {
+  // Collapse runs of 2+ blank lines (common in Hypermail-decoded bodies) to one.
+  const lines = body.split("\n");
+  const out: string[] = [];
+  let blanks = 0;
+  for (const raw of lines) {
+    const line = raw.replace(/[ \t]+$/, "");
+    if (line.trim() === "") {
+      blanks++;
+      if (blanks <= 1) out.push("");
+    } else {
+      blanks = 0;
+      out.push(line);
+    }
+  }
+  return out.join("\n").trim();
+}
+
 function splitBlocks(body: string): Block[] {
   const lines = body.split("\n");
   const out: Block[] = [];
@@ -25,8 +43,7 @@ function splitBlocks(body: string): Block[] {
   };
   const isQuote = (s: string) => /^\s*>+/.test(s);
   for (const line of lines) {
-    const q = isQuote(line);
-    const next: "quote" | "text" = q ? "quote" : "text";
+    const next: "quote" | "text" = isQuote(line) ? "quote" : "text";
     if (mode === null) mode = next;
     if (next !== mode) {
       flush();
@@ -49,7 +66,7 @@ function highlightText(text: string, terms: string[]) {
 }
 
 export default function MessageBody({ body, highlight }: Props) {
-  const blocks = useMemo(() => splitBlocks(body), [body]);
+  const blocks = useMemo(() => splitBlocks(normalize(body)), [body]);
   const terms = useMemo(() => {
     if (!highlight) return [] as string[];
     return highlight
@@ -59,7 +76,7 @@ export default function MessageBody({ body, highlight }: Props) {
   }, [highlight]);
 
   return (
-    <div className="text-[14px] leading-[1.65] text-text whitespace-pre-wrap break-words">
+    <div className="text-[13.5px] leading-[1.45] text-text/90 whitespace-pre-wrap break-words font-sans">
       {blocks.map((b, i) =>
         b.type === "quote" ? (
           <div key={i} className="quote">
