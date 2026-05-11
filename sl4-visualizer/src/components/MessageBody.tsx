@@ -76,7 +76,7 @@ export default function MessageBody({ body, highlight }: Props) {
   }, [highlight]);
 
   return (
-    <div className="text-[13.5px] leading-[1.45] text-text/90 whitespace-pre-wrap break-words font-sans">
+    <div className="text-[13.5px] leading-[1.55] text-text/90 whitespace-pre-wrap break-words font-sans space-y-2">
       {blocks.map((b, i) =>
         b.type === "quote" ? (
           <div key={i} className="quote">
