@@ -9,6 +9,8 @@ import SearchResults from "@/components/SearchResults";
 import ThreadList from "@/components/ThreadList";
 import ThreadView from "@/components/ThreadView";
 
+type FilterMode = "all" | "both";
+
 function App() {
   const { data, error } = useData();
 
@@ -17,6 +19,7 @@ function App() {
   const [selectedThread, setSelectedThread] = useState<string | null>(null);
   const [selectedMessage, setSelectedMessage] = useState<string | null>(null);
   const [highlightQuery, setHighlightQuery] = useState<string | null>(null);
+  const [filter, setFilter] = useState<FilterMode>("all");
 
   const searchInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -28,6 +31,8 @@ function App() {
       setSelectedMessage(url.searchParams.get("msg"));
       const q = url.searchParams.get("q");
       if (q !== null) setQuery(q);
+      const f = url.searchParams.get("f");
+      if (f === "both" || f === "all") setFilter(f);
     };
     sync();
     window.addEventListener("popstate", sync);
@@ -40,8 +45,10 @@ function App() {
     else url.searchParams.delete("thread");
     if (selectedMessage) url.searchParams.set("msg", selectedMessage);
     else url.searchParams.delete("msg");
+    if (filter === "both") url.searchParams.set("f", "both");
+    else url.searchParams.delete("f");
     window.history.replaceState({}, "", url.toString());
-  }, [selectedThread, selectedMessage]);
+  }, [selectedThread, selectedMessage, filter]);
 
   // Debounce search query
   useEffect(() => {
@@ -53,6 +60,13 @@ function App() {
   useEffect(() => {
     if (debounced) ensureSearchIndex();
   }, [debounced]);
+
+  const filteredThreads = useMemo(() => {
+    if (!data) return [];
+    if (filter === "both")
+      return data.threads.filter((t) => t.yudkowskyCount > 0 && t.goertzelCount > 0);
+    return data.threads;
+  }, [data, filter]);
 
   // Keyboard shortcuts
   useEffect(() => {
@@ -82,12 +96,12 @@ function App() {
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data, selectedThread, query]);
+  }, [data, selectedThread, query, filteredThreads]);
 
   const navigateThread = useCallback(
     (delta: number) => {
       if (!data) return;
-      const list = data.threads;
+      const list = filteredThreads;
       const idx = list.findIndex((t) => t.key === selectedThread);
       const nextIdx = Math.max(0, Math.min(list.length - 1, idx === -1 ? 0 : idx + delta));
       const next = list[nextIdx];
@@ -96,7 +110,7 @@ function App() {
         setSelectedMessage(null);
       }
     },
-    [data, selectedThread],
+    [data, selectedThread, filteredThreads],
   );
 
   const hits = useMemo(() => {
@@ -134,7 +148,7 @@ function App() {
 
   if (error) {
     return (
-      <div className="h-screen w-screen grid place-items-center text-sm text-muted">
+      <div className="h-[100dvh] w-screen grid place-items-center text-sm text-muted px-4 text-center">
         Failed to load data: {error.message}
       </div>
     );
@@ -142,25 +156,32 @@ function App() {
 
   if (!data) {
     return (
-      <div className="h-screen w-screen grid place-items-center text-sm text-muted">
+      <div className="h-[100dvh] w-screen grid place-items-center text-sm text-muted">
         Loading threads…
       </div>
     );
   }
 
+  const bothCount = data.threads.filter(
+    (t) => t.yudkowskyCount > 0 && t.goertzelCount > 0,
+  ).length;
+
   return (
-    <div className="h-screen w-screen grid grid-cols-[360px_1fr] bg-bg">
-      <aside className="border-r border-border flex flex-col min-h-0">
+    <div className="h-[100dvh] w-screen md:grid md:grid-cols-[340px_1fr] bg-bg overflow-hidden">
+      <aside
+        className={[
+          "border-r border-border flex-col min-h-0 h-[100dvh] md:h-auto",
+          activeThread ? "hidden md:flex" : "flex",
+        ].join(" ")}
+      >
         <div className="px-3 py-3 border-b border-border space-y-2 bg-bg">
-          <div className="flex items-baseline justify-between">
-            <div>
-              <h2 className="text-sm font-semibold text-text">SL4 Archive</h2>
-              <p className="text-[11px] text-muted leading-tight mt-0.5">
-                <span className="text-yud">Yudkowsky</span> ×{" "}
-                <span className="text-goe">Goertzel</span> · {data.stats.totalThreads} threads ·{" "}
-                {data.stats.totalMessages.toLocaleString()} messages
-              </p>
-            </div>
+          <div>
+            <h2 className="text-sm font-semibold text-text">SL4 Archive</h2>
+            <p className="text-[11px] text-muted leading-tight mt-0.5">
+              <span className="text-yud">Yudkowsky</span> ×{" "}
+              <span className="text-goe">Goertzel</span> · {data.stats.totalThreads} threads ·{" "}
+              {data.stats.totalMessages.toLocaleString()} messages
+            </p>
           </div>
           <SearchBox
             ref={searchInputRef}
@@ -168,6 +189,24 @@ function App() {
             onChange={setQuery}
             onClear={() => setQuery("")}
           />
+          <div className="flex items-center gap-1 text-[11px]">
+            <FilterChip
+              active={filter === "all"}
+              onClick={() => setFilter("all")}
+              label={`All · ${data.threads.length}`}
+            />
+            <FilterChip
+              active={filter === "both"}
+              onClick={() => setFilter("both")}
+              label={
+                <>
+                  <span className="inline-block h-1.5 w-1.5 rounded-full bg-yud mr-1 align-middle" />
+                  <span className="inline-block h-1.5 w-1.5 rounded-full bg-goe mr-1 align-middle" />
+                  Both posted · {bothCount}
+                </>
+              }
+            />
+          </div>
           <LoadStatus data={data} />
         </div>
         <div className="flex-1 overflow-y-auto">
@@ -187,7 +226,7 @@ function App() {
             )
           ) : (
             <ThreadList
-              threads={data.threads}
+              threads={filteredThreads}
               selectedKey={selectedThread}
               onSelect={onSelectThread}
             />
@@ -195,7 +234,12 @@ function App() {
         </div>
       </aside>
 
-      <main className="min-h-0">
+      <main
+        className={[
+          "min-h-0 h-[100dvh] md:h-auto",
+          activeThread ? "block" : "hidden md:block",
+        ].join(" ")}
+      >
         {activeThread ? (
           data.byId ? (
             <ThreadView
@@ -203,9 +247,19 @@ function App() {
               messages={activeMessages}
               highlightMessageId={selectedMessage}
               highlightQuery={highlightQuery}
+              onBack={() => {
+                setSelectedThread(null);
+                setSelectedMessage(null);
+              }}
             />
           ) : (
-            <ThreadLoading thread={activeThread} />
+            <ThreadLoading
+              thread={activeThread}
+              onBack={() => {
+                setSelectedThread(null);
+                setSelectedMessage(null);
+              }}
+            />
           )
         ) : (
           <EmptyState />
@@ -215,10 +269,34 @@ function App() {
   );
 }
 
+function FilterChip({
+  active,
+  onClick,
+  label,
+}: {
+  active: boolean;
+  onClick: () => void;
+  label: React.ReactNode;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className={[
+        "px-2 py-1 rounded-md border text-[11px] leading-none transition-colors",
+        active
+          ? "border-accent/60 text-text bg-accent/10"
+          : "border-border text-muted hover:text-text hover:border-border/80",
+      ].join(" ")}
+    >
+      {label}
+    </button>
+  );
+}
+
 function LoadStatus({ data }: { data: DataBundle }) {
   if (data.status === "ready" && data.searchStatus !== "indexing") return null;
   let label = "";
-  if (data.status === "loading-bodies") label = "Loading message bodies in background…";
+  if (data.status === "loading-bodies") label = "Loading message bodies…";
   if (data.searchStatus === "indexing") label = "Building search index…";
   return (
     <div className="flex items-center gap-2 text-[11px] text-muted">
@@ -228,17 +306,32 @@ function LoadStatus({ data }: { data: DataBundle }) {
   );
 }
 
-function ThreadLoading({ thread }: { thread: import("@/lib/types").Thread }) {
+function ThreadLoading({
+  thread,
+  onBack,
+}: {
+  thread: import("@/lib/types").Thread;
+  onBack: () => void;
+}) {
   return (
     <div className="h-full flex flex-col">
-      <header className="border-b border-border px-6 py-4">
-        <h1 className="text-lg font-semibold text-text">{thread.subject}</h1>
-        <div className="mt-1 text-xs text-muted">{thread.messageCount} messages</div>
+      <header className="border-b border-border px-4 sm:px-6 py-3 sm:py-4 flex items-center gap-3">
+        <button
+          onClick={onBack}
+          className="md:hidden -ml-1 px-2 py-1 rounded text-muted hover:text-text hover:bg-panel2"
+          aria-label="Back to thread list"
+        >
+          ←
+        </button>
+        <div className="min-w-0">
+          <h1 className="text-base sm:text-lg font-semibold text-text truncate">{thread.subject}</h1>
+          <div className="mt-0.5 text-xs text-muted">{thread.messageCount} messages</div>
+        </div>
       </header>
       <div className="flex-1 grid place-items-center text-sm text-muted px-8 text-center">
         <div>
           <div className="inline-block h-2 w-2 rounded-full bg-accent animate-pulse mr-2" />
-          Fetching message bodies — about 9 MB compressed. Sidebar works while this loads.
+          Fetching message bodies…
         </div>
       </div>
     </div>
