@@ -18,12 +18,27 @@ body {
 ::-webkit-scrollbar-thumb { background: #2a2a30; border-radius: 6px; }
 ::-webkit-scrollbar-thumb:hover { background: #3a3a44; }
 
+.msg-body p {
+  margin: 0.55rem 0;
+}
+.msg-body > p:first-child {
+  margin-top: 0;
+}
+.msg-body > p:last-child {
+  margin-bottom: 0;
+}
+
 .quote {
-  color: #6b7280;
-  border-left: 2px solid #2a2a30;
-  padding-left: 0.6rem;
-  margin: 0.1rem 0;
-  white-space: pre-wrap;
+  color: #7c7c86;
+  border-left: 2px solid #33333c;
+  padding-left: 0.85rem;
+  margin: 0.55rem 0;
+}
+.quote p {
+  margin: 0.4rem 0;
+}
+.quote .quote {
+  margin: 0.4rem 0;
 }
 
 mark {
